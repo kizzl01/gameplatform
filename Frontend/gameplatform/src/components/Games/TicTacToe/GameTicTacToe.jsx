@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import React, { useState } from "react";
 import "./GameTicTacToe.css";
 
@@ -82,7 +83,11 @@ function Game() {
       </div>
       <div className="game-info">
         <div>{status}</div>
-        <ol>{moves}</ol>
+        {(winner)&&(<div>
+          <Button onClick={()=>jumpTo(0)} variant="contained">Restart</Button>
+        </div>)
+        }
+        {/* <ol>{moves}</ol>  */}
       </div>
     </div>
   );
