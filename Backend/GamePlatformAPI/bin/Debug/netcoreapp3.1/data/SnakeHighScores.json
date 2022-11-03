@@ -1,0 +1,21 @@
+{
+  "scoreBoard":
+  [
+    {
+      "name": "Lukas",
+      "score": 6
+    },
+    {
+      "name": "Moritz",
+      "score": 4
+    },
+    {
+      "name": "Friedrich",
+      "score": 1
+    },
+    {
+      "name": "Fychluz",
+      "score": 0
+    }
+  ]
+}

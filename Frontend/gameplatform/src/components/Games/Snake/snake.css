@@ -1,0 +1,56 @@
+body {
+    position:relative;
+  /* background-color: darkgrey; */
+}
+.root {
+    position:relative;
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* text-align: center; */
+}
+
+canvas {
+  background-color: black; 
+  height: 100%;
+  margin: 0 auto;
+/*  margin-left:auto;
+  margin-right:auto;*/
+}
+
+.banner {
+  position: absolute; 
+  top: 0; 
+  right: 0; 
+  border: 0;
+}
+
+.game-board {
+    float:left;
+  margin: 10px;
+  position:relative;
+}
+
+table, th, td{
+    border:1px solid black;
+    width:100%;
+}
+
+/* tr:nth-child(2n){
+    background-color:blue;
+} */
+
+.hide {
+  display: none;
+}
+
+.score-panel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:100%;
+}
+
+#game{
+  width:550;
+  height:550;
+}
