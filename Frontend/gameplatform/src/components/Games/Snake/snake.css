@@ -35,9 +35,9 @@ table, th, td{
     width:100%;
 }
 
-tr:nth-child(2n){
+/* tr:nth-child(2n){
     background-color:blue;
-}
+} */
 
 .hide {
   display: none;

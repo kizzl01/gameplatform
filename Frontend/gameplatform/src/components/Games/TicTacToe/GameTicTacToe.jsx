@@ -36,7 +36,7 @@ function Board(props) {
   );
 }
 
-function Game() {
+function TicTacToe() {
   const [history, setHistory] = useState([{ squares: Array(9).fill(null) }]);
   const [xIsNext, setxIsNext] = useState(true);
   const [stepNumber, setStepNumber] = useState(0);
@@ -113,4 +113,4 @@ function calculateWinner(squares) {
   return null;
 }
 
-export default Game;
+export default TicTacToe;

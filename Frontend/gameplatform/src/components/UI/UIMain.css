@@ -18,6 +18,10 @@ body {
     height: 100%;
     display: flex;
     justify-content: space-between;
+    background-image: url(../../media/textura.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 
 .navigation-container{
@@ -42,9 +46,11 @@ body {
 }
 
 .game-wrapper{
-    /* position: absolute; */
-    /* border: 4px rgba(29,29,27,.15) solid; */
-    /* margin: auto; */
+    border: 4px rgba(29,29,27,.15) solid;
+    padding: 8px;
+    margin: auto;
 }
 
-
+tbody{
+    color:white;
+}

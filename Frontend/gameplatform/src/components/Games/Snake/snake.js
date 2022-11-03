@@ -1,13 +1,12 @@
 import React from "react";
 import "./snake.css";
 import * as phone from "./Phone.jpg";
-import { Button } from "@mui/material";
+import { Chip } from "@mui/material";
 
 // Class representing the game
 class Game {
   // Build a new game with the given pixel width and height
   constructor(width, height, obj) {
-    console.log("game constructor ");
     // At the beginnig, no movement is set, the game is paused
     this.nextMove = undefined;
     this.alreadyMoved = false;
@@ -22,7 +21,7 @@ class Game {
     ]);
     this.food = undefined;
     this.gameover = false;
-    this.scoreHtmlElmt = document.getElementById("score");
+    // this.scoreHtmlElmt = document.getElementById("score");
     this.addFood();
   }
 
@@ -92,10 +91,8 @@ class Game {
 
   // Add a food somewhere in the game (randomly)
   addFood() {
-    console.log("add food");
     var x = Math.floor(Math.random() * 60);
     var y = Math.floor(Math.random() * 60);
-    console.log("loaction " + x, y);
     for (var i = 0; i < this.snake.length; i++) {
       var xy = this.snake[i];
 
@@ -108,7 +105,7 @@ class Game {
   }
 
   // Update the game state with the next move
-  update = (callback, arg) => {
+  update = (arg, obj) => {
     if (this.gameover) return;
     this.alreadyMoved = false;
     let newHead = this.snake[0].slice();
@@ -147,7 +144,6 @@ class Game {
     }
 
     if (this.gameover) {
-      console.log("gameover call");
       return;
     }
 
@@ -168,13 +164,13 @@ class Game {
         return;
       }
     }
-    callback(arg);
+    // callback(arg, obj);
+    this.render(arg, obj);
   };
 
   drawSnakeAndFood = (ctx) => {
     for (let i = 0; i < this.snake.length; i++) {
       const xy = this.snake[i].slice();
-      // console.log(xy);
       ctx.fillRect(
         xy[0] * this.tileWidth,
         xy[1] * this.tileHeight,
@@ -199,12 +195,12 @@ class Game {
   };
 
   // Draw / render the current game state
-  render = (ctx) => {
+  render = (ctx, obj) => {
     // Clear the screen
     ctx.clearRect(0, 0, this.width, this.height);
 
     // Update score HTML element
-    this.scoreHtmlElmt.textContent = this.snake.length - 1;
+    obj.setState({ score: this.snake.length - 1 });
 
     // Draw the borders
     ctx.strokeStyle = "black";
@@ -215,7 +211,6 @@ class Game {
     this.drawSnakeAndFood(ctx);
     //GameOver
     if (this.gameover) {
-      console.log(this.gameover);
       document.querySelector("#restart").classList.remove("hide");
       ctx.font = "48px serif";
       ctx.fillStyle = "black";
@@ -238,7 +233,6 @@ class Game {
 }
 
 const start = (obj) => {
-  console.log("started with: ", obj);
   let canvas = document.getElementById("game");
   let game = new Game(canvas.width, canvas.height, obj);
   obj.setState({ isFinished: false });
@@ -254,10 +248,11 @@ const start = (obj) => {
 const loop = (game, ctx, obj) => {
   if (game.gameover) {
     obj.setState({ isFinished: true });
+    obj.setScore();
     // game.scoreHtmlElmt.textContent = "restart";
     return;
   }
-  game.update(game.render, ctx);
+  game.update(ctx, obj);
   // every 5 food eaten, increase spead by 10 ms
   var snakeFastIndex = Math.floor(game.snake.length / 5);
   if (snakeFastIndex === 0) {
@@ -277,7 +272,6 @@ const loop = (game, ctx, obj) => {
 
 function restart(obj) {
   start(obj);
-  console.log("restart");
 }
 
 export default class Snake extends React.Component {
@@ -285,6 +279,7 @@ export default class Snake extends React.Component {
     super(props);
     this.state = {
       isFinished: false,
+      score: 0,
     };
   }
   componentDidMount() {
@@ -295,26 +290,27 @@ export default class Snake extends React.Component {
     restart(this);
   };
 
+  setScore = () => {
+    const { score } = this.state;
+    console.log("Score set to ", score);
+    this.props.newScore(score);
+  };
+
   render() {
-    const { isFinished } = this.state;
+    const { isFinished, score } = this.state;
     return (
       <div className="snake-game">
         <div className="panel">
           <canvas id="game" height={550} width={550}></canvas>
         </div>
         <div className="score-panel">
-          <Button
-            id="restart-button"
-            variant="contained"
-            disabled={!isFinished}
+          <Chip
+            label="Restart"
             onClick={this.handleClick}
-          >
-            Restart
-          </Button>
-          <font color="white">
-            Score:
-            <span id="score">0</span>
-          </font>
+            disabled={!isFinished}
+            color="primary"
+          />
+          <Chip label={`Score: ${score}`} variant="filled" color="secondary" />
         </div>
       </div>
     );
