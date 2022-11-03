@@ -17,7 +17,6 @@ export default class CustomTable extends React.Component {
   }
 
   componentDidMount() {
-    // this.props.getData();
     if(this.props.data){
       this.setState({ data: this.props.data });
     }
@@ -49,7 +48,6 @@ export default class CustomTable extends React.Component {
                 ))}
               </TableBody>
             </Table>
-            <button onClick={this.postScoreBoard}>post</button>
           </div>
         )}
       </div>
