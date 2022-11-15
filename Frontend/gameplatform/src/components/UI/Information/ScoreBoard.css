@@ -1,4 +1,12 @@
 Table {
-  background-color: rgba(241, 244, 247, 0.178);
+  background: linear-gradient(
+    rgba(227, 218, 236, 0.281) 0%,
+    rgba(27, 27, 27, 0.164) 100%
+  );
   border: 0;
+  border-radius:20px;
+}
+
+.MuiTable-root{
+  border:0;
 }
