@@ -198,7 +198,6 @@ class Game {
   render = (ctx, obj) => {
     // Clear the screen
     ctx.clearRect(0, 0, this.width, this.height);
-
     // Update score HTML element
     obj.setState({ score: this.snake.length - 1 });
 
@@ -292,7 +291,6 @@ export default class Snake extends React.Component {
 
   setScore = () => {
     const { score } = this.state;
-    console.log("Score set to ", score);
     this.props.newScore(score);
   };
 

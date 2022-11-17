@@ -4,6 +4,7 @@ import {
   TableBody,
   TableRow,
   Table,
+  tableCellClasses,
 } from "@mui/material";
 import React from "react";
 import "./ScoreBoard.css";
@@ -12,24 +13,34 @@ export default class CustomTable extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null,
+      rows: null,
     };
   }
 
   componentDidMount() {
-    // this.props.getData();
-    if(this.props.data){
-      this.setState({ data: this.props.data });
+    if (this.props.data) {
+      const { data } = this.props;
+      this.setState({ rows: data });
     }
   }
 
   render() {
-    const { data } = this.state;
+    const { rows } = this.state;
     return (
       <div>
-        {data && (
+        {rows && (
           <div>
-            <Table>
+            <Table
+              sx={{
+                [`& .${tableCellClasses.root}`]: {
+                  border: "1px rgba(29, 29, 27, 0.15) solid",
+                  borderTop: "none",
+                  borderLeft: "none",
+                  borderRight: "none",
+                },
+                "&:last-child td, &:last-child th": { border: 0 },
+              }}
+            >
               <TableHead>
                 <TableRow>
                   <TableCell>#</TableCell>
@@ -38,10 +49,10 @@ export default class CustomTable extends React.Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.map((row) => (
+                {rows.sort(this.props.sortFunction).map((row) => (
                   <TableRow key={row.name}>
                     <TableCell component="th" scope="row">
-                      {row.place}
+                      {rows.indexOf(row)+1}
                     </TableCell>
                     <TableCell>{row.name}</TableCell>
                     <TableCell>{row.score}</TableCell>
@@ -49,7 +60,6 @@ export default class CustomTable extends React.Component {
                 ))}
               </TableBody>
             </Table>
-            <button onClick={this.postScoreBoard}>post</button>
           </div>
         )}
       </div>

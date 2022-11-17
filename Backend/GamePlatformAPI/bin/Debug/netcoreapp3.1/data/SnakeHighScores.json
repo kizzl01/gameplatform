@@ -1,21 +1,26 @@
-{
-  "scoreBoard":
-  [
-    {
-      "name": "Lukas",
-      "score": 6
-    },
-    {
-      "name": "Moritz",
-      "score": 4
-    },
-    {
-      "name": "Friedrich",
-      "score": 1
-    },
-    {
-      "name": "Fychluz",
-      "score": 0
-    }
-  ]
-}
+[
+  {
+    "name": "Lukas",
+    "score": 18
+  },
+  {
+    "name": "Moritz",
+    "score": 6
+  },
+  {
+    "name": "test",
+    "score": 6
+  },
+  {
+    "name": "Niklas",
+    "score": 3
+  },
+  {
+    "name": "edin",
+    "score": 2
+  },
+  {
+    "name": "Friedrich",
+    "score": 2
+  }
+]
