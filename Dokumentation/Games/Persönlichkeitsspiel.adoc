@@ -1,0 +1,26 @@
+= Persönlichkeitsspiel
+
+== Allgemein
+Es werden mindestens 3 Spieler benötigt. Jeder Spieler schreibt ein wahres Statement über sich auf. 
+
+.Beispiele hierfür wären:
+* Ich habe noch nie Döner mit Zwiebeln gegessen
+* Meine Lieblingsfarbe ist lila
+* Ich werde die Winter Fußball WM in Katar nicht verfolgen
+* Ich denke Milch ist Gift
+
+Nachdem jeder Spieler ein Statement abgegeben hat, bekommt er die Statements der anderen Spieler und deren Namen angezeigt, wobei er die Namen und Statements einander zuordnen muss. Wer nach Ablauf der Zeit die meisten richtigen Zuordnungen hat, gewinnt das Spiel.
+Optional: 	- Da es bei einer geringen Spieleranzahl ein sehr kurzes Spiel ist würde sich eine Rundenanzahl mit Scoreboard anbieten.
+
+== Spielfeld
+Das Spiel besteht aus 3 Phasen:
+Phase 1:
+Die Spieler müssen ein Statement über sich abgeben. Hierfür wird eine Überschrift wie „Geben sie ein wahres Statement über sich ab:“, ein leeres Textfeld zum Eingeben des Statements, ein Button zum bestätigten des Statements und ein ablaufender Timer zur zeitlichen Begrenzung. Das Spielfeld wechselt von Phase 1 zu Phase 2 wenn alle Spieler ihr Statement mit dem Button bestätigt haben oder die Zeit des Timers abgelaufen ist.
+Phase 2:
+Die Spieler bekommen nun alle Namen und Statements angezeigt. Hierbei können die Statements fest sein und die Namen mit der Maus oder per Touch beweglich. So können die Namen den Statements zugeordnet werden. Auch hier sollte es wieder ein Button zum bestätigen und einen Timer geben. Das Spielfeld wechselt von Phase 2 zu Phase 3 wenn alle Spieler ihr Zuordnung mit dem Button bestätigt haben oder die Zeit des Timers abgelaufen ist.
+Phase 3:
+Die Zuordnungen wurden nun ausgewertet und in einem Scoreboard für jeden dargestellt.
+Optional: 	- Falls es mehrere Runden gibt wird von hier wieder in Phase 1 gewechselt und das Scoreboard wird gespeichert und später addiert
+
+== Regeln
+Jedes richtig zugeordnete Statement gibt ein Punkt. Der Spieler mit den meisten Punkten gewinnt das Spiel
