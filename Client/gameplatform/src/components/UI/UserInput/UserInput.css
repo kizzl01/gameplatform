@@ -1,0 +1,13 @@
+
+.user-input {
+    border: 2px rgba(29, 29, 27, 0.15) solid;
+    border-radius: 15px;
+    background-color: rgba(27, 27, 27, 0.164);
+    margin: auto;
+    align-content: center;
+    padding: 20px;
+    width: 222px;
+    height: 90px;
+    transform: translate(0px, 300px);
+    /* transition: all 0s ease 0s; */
+  }

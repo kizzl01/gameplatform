@@ -1,0 +1,73 @@
+html {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+}
+
+body {
+  margin: 0;
+  border: none;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    200deg,
+    rgba(92, 30, 166, 1) 0%,
+    rgba(200, 67, 94, 1) 100%
+  );
+}
+
+.main-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  background-image: url(../../media/textura.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  /* align-items: center; */
+}
+
+.navigation-container {
+  height: 100%;
+  width: 20%;
+  /* display: fixed; */
+  /* margin:2vw; */
+  /* border-radius: 20px; */
+  /* border-right: 1px rgba(29, 29, 27, 0.15) solid; */
+  background: linear-gradient(
+    rgba(227, 218, 236, 0.281) 0%,
+    rgba(27, 27, 27, 0) 100%
+  );
+}
+
+.info-container {
+  height: 100%;
+  width: 20%;
+  /* margin: 2vw; */
+  border-radius: 20px;
+  /* border-left: 1px rgba(29, 29, 27, 0.15) solid; */
+  /* background: linear-gradient(
+    rgba(227, 218, 236, 0.281) 0%,
+    rgba(27, 27, 27, 0) 100%
+  ); */
+}
+
+.content-container {
+  align-content: center;
+  justify-content: center;
+  display: flex;
+}
+
+.game-wrapper {
+  border: 2px rgba(29, 29, 27, 0.15) solid;
+  border-radius: 15px;
+  padding: 20px;
+  margin: auto;
+}
+
+tbody {
+  color: white;
+}
+
