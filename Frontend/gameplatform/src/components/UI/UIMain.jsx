@@ -95,10 +95,10 @@ function Main() {
   useEffect(() => {
     getUserList();
     getScoreBoard();
-    // window.addEventListener("beforeunload", alertuser);
-    // return () => {
-    //   window.removeEventListener("beforeunload", alertuser);
-    // };
+    window.addEventListener("beforeunload", alertuser);
+    return () => {
+      window.removeEventListener("beforeunload", alertuser);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -1,18 +1,26 @@
 [
   {
     "name": "Lukas",
-    "score": 5
+    "score": 18
   },
   {
     "name": "Moritz",
-    "score": 4
+    "score": 6
+  },
+  {
+    "name": "test",
+    "score": 6
+  },
+  {
+    "name": "Niklas",
+    "score": 3
+  },
+  {
+    "name": "edin",
+    "score": 2
   },
   {
     "name": "Friedrich",
-    "score": 1
-  },
-  {
-    "name": "Ronny",
-    "score": 0
+    "score": 2
   }
 ]
