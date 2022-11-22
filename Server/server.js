@@ -1,30 +1,33 @@
 const express = require("express");
 const http = require("http");
-const socketIo = require("socket.io");
 const fs = require("fs");
 const bodyParser = require("body-parser");
-const SNAKESCOREBOARDPATH = __dirname + "/data/" + "SnakeHighScores.json";
 const cors = require("cors");
-
-const port = 4001;
-const index = require("./routes/index");
-const { json } = require("body-parser");
-
 const app = express();
+const server = http.createServer(app);
+const { json } = require("body-parser");
+const socketIo = require("socket.io");
+
+const SNAKESCOREBOARDPATH = __dirname + "/data/" + "SnakeHighScores.json";
+const PORT = 4001;
+const CLIENTURL = "http://localhost:3000";
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors({
-  origin:["http://localhost:3000","https://localhost:3000"],
-  methods : ["GET","POST"]
-}))
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
-const server = http.createServer(app);
-
-const io = socketIo(server);
+const io = socketIo(server, {
+  cors: {
+    origin: "*",
+  },
+});
 
 const getApiAndEmit = (socket) => {
   const response = new Date();
-  // Emitting a new message. will be consumed by the client
   socket.emit("FromAPI", response);
 };
 
@@ -40,7 +43,7 @@ app.post("/postScoreboard", (req, res) => {
     if (err) {
       console.log(err);
     }
-    res.end()
+    res.end();
   });
 });
 
@@ -51,11 +54,16 @@ io.on("connection", (socket) => {
   if (interval) {
     clearInterval(interval);
   }
-  interval = setInterval(() => getApiAndEmit(socket), 1000);
+  // interval = setInterval(() => getApiAndEmit(socket), 1000);
   socket.on("disconnect", () => {
     console.log("client disconnected");
     clearInterval(interval);
   });
+
+  socket.on("message",(message)=>{
+    console.log(message);
+    io.emit("message",`  ${message}`);
+  });
 });
 
-server.listen(port, () => console.log(`Listening on port ${port}`));
+server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
