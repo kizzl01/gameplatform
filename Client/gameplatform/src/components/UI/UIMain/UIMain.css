@@ -16,16 +16,19 @@ body {
   );
 }
 
+.root-wrapper {
+  background-image: url(../../../media/textura.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
 .main-wrapper {
   position: relative;
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: space-between;
-  background-image: url(../../media/textura.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+  justify-content: right;
   /* align-items: center; */
 }
 
@@ -36,10 +39,9 @@ body {
   /* margin:2vw; */
   /* border-radius: 20px; */
   /* border-right: 1px rgba(29, 29, 27, 0.15) solid; */
-  background: linear-gradient(
+  /* background: linear-gradient(
     rgba(227, 218, 236, 0.281) 0%,
-    rgba(27, 27, 27, 0) 100%
-  );
+    rgba(27, 27, 27, 0) 100% */
 }
 
 .info-container {
@@ -71,3 +73,6 @@ tbody {
   color: white;
 }
 
+@media (min-width: 320px) and (max-width: 999px) {
+  
+}
