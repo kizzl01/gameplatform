@@ -25,7 +25,7 @@ function UIScrollable(props) {
   };
 
   return (
-    <div className="main">
+    <div className="list-wrapper">
       <div className="content-list-wrapper">{contentList()}</div>
     </div>
   );

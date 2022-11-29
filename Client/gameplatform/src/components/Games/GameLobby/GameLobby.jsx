@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { io } from "socket.io-client";
-import UserInput from "../../UI/UserInput/UserInput";
-const URL = process.env.REACT_APP_SERVER_WEBSOCKET_URL;
+import React, { useState, useEffect } from "react";
+import "./GameLobby.css";
+import { TextareaAutosize, TextField } from "@mui/material";
+import CustomChat from "./CustomChat/CustomChat";
 
 // const socket = io(URL);
 
@@ -10,15 +10,21 @@ const handleClick = (t) => {
   // socket.emit("message", t);
 };
 
-function GameLobby() {
+function GameLobby(props) {
   const [text, setText] = useState("init");
-//   socket.on("message", (text) => {
-//     setText(text);
-//   });
+  const [user, setUser] = useState(props.user);
+  const [userList, setUserList] = useState(props.userList);
+
+  useEffect(() => {
+    setUser(props.user);
+    setUserList(props.userList);
+  }, []);
+  //   socket.on("message", (text) => {
+  //     setText(text);
+  //   });
   return (
-    <div>
-      <UserInput onAccept={(t) => handleClick(t)} />
-      <h1>{text}</h1>
+    <div className="lobby-wrapper">
+      <CustomChat user={props.user} SOCKET={props.SOCKET} userList={userList} />
     </div>
   );
 }
