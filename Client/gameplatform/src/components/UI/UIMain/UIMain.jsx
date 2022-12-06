@@ -7,7 +7,7 @@ import UIScrollable from "../UIScrollable/UIScrollable.jsx";
 import SnakeGame from "../../Games/Snake/SnakeGame.jsx";
 import GameLobby from "../../Games/GameLobby/GameLobby.jsx";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-import SocketIOClient from "socket.io-client";
+import io from "socket.io-client";
 import { Button } from "@mui/material";
 
 //0 = johnnys Server, 1 = localhost, 2 = ipadresse windows subysystem linux adapter
@@ -15,10 +15,6 @@ import { Button } from "@mui/material";
 const DEVELOPMENTMODE = 2;
 
 function Main() {
-  const [user, setUser] = useState("dev");
-  const [contentItem, setContentItem] = useState(null);
-  const [userList, setUserList] = useState(null);
-
   const APIURL = () => {
     switch (DEVELOPMENTMODE) {
       case 0:
@@ -31,7 +27,6 @@ function Main() {
         return process.env.REACT_APP_SERVER_API_URL_LOCAL;
     }
   };
-
   const SOCKETURL = () => {
     switch (DEVELOPMENTMODE) {
       case 0:
@@ -44,19 +39,14 @@ function Main() {
         return process.env.REACT_APP_SERVER_WEBSOCKET_URL_LOCAL;
     }
   };
-
-  const socket = SocketIOClient(SOCKETURL());
+  const [socket, setSocket] = useState(() => io(SOCKETURL()));
+  const [user, setUser] = useState("dev");
+  const [contentItem, setContentItem] = useState(null);
+  const [userList, setUserList] = useState(null);
 
   useEffect(() => {
     checkForDevelopment();
-    getUserList();
-    socket.on("updateUserList", (data) => {
-      console.log("server said: update user list to: ", data);
-      setUserList(data);
-    });
-    return()=>{
-      socket.emit("userlogoff", user);
-    }
+    return () => {};
   }, []);
 
   const UserInList = (data, n) => {
@@ -93,9 +83,9 @@ function Main() {
   const checkForDevelopment = () => {
     // if (DEVELOPMENTMODE === 1) return;
     setUser(null);
-    window.addEventListener("beforeunload", alertuser);
+    // window.addEventListener("beforeunload", alertuser);
     return () => {
-      window.removeEventListener("beforeunload", alertuser);
+      // window.removeEventListener("beforeunload", alertuser);
     };
   };
 
@@ -108,16 +98,21 @@ function Main() {
     setContentItem(i);
   };
 
-  const addUserToUserList = (u) => {
-    if (UserInList(userList, u)) return;
-    userList.push({ user: u });
-    console.log("added user to userlist");
-  };
+  // const addUserToUserList = (u) => {
+  //   if (UserInList(userList, u)) return;
+  //   userList.push({ user: u });
+  //   console.log("added user to userlist");
+  // };
 
   const handleUserLogon = (u) => {
-    setUser(u);
-    socket.emit("userlogon",u);
-    addUserToUserList(u);
+    socket.on("updateUserList", (data) => {
+      console.log("server said: update user list to: ", data);
+      setUserList(data);
+    });
+    socket.emit("userlogon", u);
+    socket.on("loginSuccess", (loggedOnUser) => {
+      if ((loggedOnUser = u)) setUser(u);
+    });
   };
 
   const contents = [
@@ -137,9 +132,9 @@ function Main() {
     <GameLobby
       key="GameLobby"
       DEVELOPMENTMODE={DEVELOPMENTMODE}
-      user={user}
       APIURL={APIURL}
       SOCKET={socket}
+      user={user}
       userList={userList}
     />,
   ];

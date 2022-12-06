@@ -12,19 +12,15 @@ const handleClick = (t) => {
 
 function GameLobby(props) {
   const [text, setText] = useState("init");
-  const [user, setUser] = useState(props.user);
-  const [userList, setUserList] = useState(props.userList);
 
   useEffect(() => {
-    setUser(props.user);
-    setUserList(props.userList);
   }, []);
   //   socket.on("message", (text) => {
   //     setText(text);
   //   });
   return (
     <div className="lobby-wrapper">
-      <CustomChat user={props.user} SOCKET={props.SOCKET} userList={userList} />
+      <CustomChat user={props.user} SOCKET={props.SOCKET} userList={props.userList} />
     </div>
   );
 }

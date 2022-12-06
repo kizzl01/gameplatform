@@ -4,7 +4,6 @@
   background-color: white;
   border-radius: 4px;
   display: flex;
-  
 }
 
 .chat-output-div {
@@ -16,7 +15,6 @@
   position: absolute;
   bottom: 0;
   width: 100%;
-
 }
 .chat-users-div {
   position: absolute;
@@ -27,8 +25,12 @@
   border-left: 1px rgba(0, 0, 0, 0.348) solid;
 }
 
-.chat-text-fields{
+.chat-text-fields {
   position: relative;
-  width:60%;
+  width: 60%;
   height: 100%;
+}
+
+ul {
+  width: 100%;
 }

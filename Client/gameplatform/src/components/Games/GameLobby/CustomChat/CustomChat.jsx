@@ -1,36 +1,62 @@
 import React, { useState, useEffect } from "react";
-import { TextField } from "@mui/material";
-import SocketIOClient, { Socket } from "socket.io-client";
+import { List, ListItem, ListItemText, TextField } from "@mui/material";
 import "./CustomChat.css";
 
 function CustomChat(props) {
-  const [user, setUser] = useState(props.user);
-  const [userList, setUserList] = useState(null);
   const [text, setText] = useState(null);
-
+  const [chatArray, setChatArray] = useState([]);
   const socket = props.SOCKET;
 
   useEffect(() => {
-    setUser(props.user);
+    socket.on("receivemessage", (chatlog) => {
+      console.log(`received message ${chatlog} from server`);
+    });
   }, []);
 
   const sendChatmessage = () => {};
 
   const handleChange = (e) => {
     socket.emit("userTyping");
-    console.log(e.target.value);
     setText(e.target.value);
   };
 
   const handleKeyPress = (e) => {
     if (e.key !== "Enter") return;
-    socket.emit("sendmessage", text);
+    console.log("message sent", text);
+    e.target.value = "";
+    socket.emit("sendmessage", text, props.user);
+  };
+
+  const renderUsers = () => {
+    if (props.userList)
+      return props.userList.map((u) => (
+        <ListItem key={u.id}>
+          <ListItemText
+            primary={
+              !!(props.user === u.user) ? `${u.user} (you)` : `${u.user}`
+            }
+          />
+        </ListItem>
+      ));
+  };
+
+  const renderChatMessages = () => {
+    if (chatArray) {
+      console.log(`rendering chatArray ${chatArray}`);
+      return chatArray.map((message) => (
+        <ListItem key={message}>
+          <ListItemText primary={`${message}`} />
+        </ListItem>
+      ));
+    }
   };
 
   return (
     <div className="chat-room">
       <div className="chat-text-fields">
-        <div className="chat-output-div"></div>
+        <div className="chat-output-div">
+          <List>{renderChatMessages()}</List>
+        </div>
         <div className="chat-input-div">
           <TextField
             id="chat-input"
@@ -41,7 +67,9 @@ function CustomChat(props) {
           />
         </div>
       </div>
-      <div className="chat-users-div"></div>
+      <div className="chat-users-div">
+        <List>{renderUsers()}</List>
+      </div>
     </div>
   );
 }

@@ -20,23 +20,27 @@ app.use(
   })
 );
 
-var userList = new Array();
+const userList = new Array();
+const chatMessages = new Array();
 
 const UserInList = (data, n) => {
   for (let i = 0; i < data.length; i++) {
-    console.log(data);
     if (data[i].user === n) return true;
   }
   return false;
 };
 
 const readUserlist = () => {
+  let userList;
   fs.readFile(USERLISTPATH, "utf-8", function (err, data) {
-    userList = Array(data);
+    console.log("reading userlist: ", data);
+    userList = data;
   });
+  console.log("read userlist", userList);
+  return userList;
 };
 
-const writeUserList = () => {
+const writeUserList = (userList) => {
   fs.writeFile(USERLISTPATH, userList, (err) => {
     if (err) {
       console.log(err);
@@ -45,19 +49,30 @@ const writeUserList = () => {
   });
 };
 
-const logOnUser = (u) => {
-  if (UserInList(userList, u)) return;
-  // userList.push({ user: u });
-  writeUserList();
-  io.emit("message", `User ${u} logged on`);
-  console.log("logonuser finished", userList);
+const logOnUser = (u, i) => {
+  if (UserInList(userList, u)) return 0;
+  const newUser = { user: u, id: i };
+  userList.push(newUser);
+  console.log("logged on User", newUser);
+  console.log(userList);
+  io.emit("loginSuccess", u);
+  io.emit("updateUserList", userList);
+  return 1;
 };
 
-const logOfUser = (u) => {
-  if (!UserInList(userList, u)) return;
-  userList.splice(userList.indexOf({ user: u }));
-  writeUserList();
+const buildChatMessage = (m, u) => {
+  const newMessage = `${u}: ${m}`;
+  chatMessages.push(newMessage);
+};
+
+const logOfUser = (i) => {
+  if (userList.findIndex((x) => x.id === i) > -1)
+    userList.splice(
+      userList.findIndex((x) => x.id === i),
+      1
+    );
   console.log(userList);
+  io.emit("updateUserList", userList);
 };
 
 const io = socketIo(server, {
@@ -84,9 +99,10 @@ app.post("/postScoreboard", (req, res) => {
 });
 
 app.get("/getUserList", function (req, res) {
-  fs.readFile(USERLISTPATH, "utf-8", function (err, data) {
-    res.end(data);
-  });
+  // fs.readFile(USERLISTPATH, "utf-8", function (err, data) {
+  //   res.end(data);
+  // });
+  // res.end(userList);
 });
 
 app.post("/postUserList", (req, res) => {
@@ -100,30 +116,36 @@ app.post("/postUserList", (req, res) => {
   });
 });
 
-let interval;
+app.post("/loginUser", (req, res) => {
+  const response = "failed";
+  console.log(req.body);
+  if (logOnUser(req.body)) {
+    response = "success";
+    io.emit("updateUserList", userList);
+  }
+  res.end(response);
+});
 
 io.on("connection", (socket) => {
-  socket.on("disconnect", () => {
-    // console.log("client disconnected");
-    clearInterval(interval);
+  const id = socket.id;
+  console.log("client connected", id);
+  socket.on("disconnect", (reason) => {
+    console.log("socket event disconnect fired for id", id);
+    logOfUser(id);
   });
 
   socket.on("message", (message) => {
-    console.log(message);
     io.emit("message", `  ${message}`);
   });
 
   socket.on("userlogon", (user) => {
-    readUserlist();
-    console.log("user logged on ", user);
-    logOnUser(user);
-    io.emit("userList", userList);
+    logOnUser(user, id);
   });
 
-  socket.on("userlogoff", (user) => {
-    readUserlist();
-    logOfUser(user);
-    io.emit("userList", userList);
+  socket.on("sendmessage", (message, user) => {
+    console.log(`received message ${message} from user ${user}`);
+    buildChatMessage(message, user);
+    io.emit("receivemessage", chatMessages);
   });
 });
 

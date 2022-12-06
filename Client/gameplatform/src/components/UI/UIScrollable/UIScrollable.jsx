@@ -12,14 +12,18 @@ function UIScrollable(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleClick = (id) =>{
+  const handleClick = (id) => {
     props.handleClick(id);
-  }
+  };
 
   const contentList = () => {
     return gameList.map((c) => (
-      <ul className="content-list">
-          <CustomButton content={c} onClick = {handleClick} id = {gameList.indexOf(c)}/>
+      <ul className="content-list" key = {c.key}>
+        <CustomButton
+          content={c}
+          onClick={handleClick}
+          id={gameList.indexOf(c)}
+        />
       </ul>
     ));
   };
