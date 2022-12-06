@@ -1,24 +1,36 @@
-import React, { useState } from "react";
-import { io } from "socket.io-client";
-import UserInput from "../../UI/UserInput/UserInput";
-const URL = process.env.REACT_APP_SERVER_WEBSOCKET_URL;
+import React, { useState, useEffect } from "react";
+import "./GameLobby.css";
+import CustomChat from "./CustomChat/CustomChat";
 
-// const socket = io(URL);
 
-const handleClick = (t) => {
-  console.log(t);
-  // socket.emit("message", t);
-};
+function GameLobby(props) {
+  const [chatArray, setChatArray] = useState(null);
 
-function GameLobby() {
-  const [text, setText] = useState("init");
-//   socket.on("message", (text) => {
-//     setText(text);
-//   });
+  useEffect(() => {
+    props.socket.on("sendmessage", (message) => {
+      addChatMessage(message);
+    });
+  }, [chatArray]);
+
+  const addChatMessage = (message) => {
+    if (chatArray === null) {
+      const newChat = new Array([message]);
+      setChatArray(newChat);
+    } else {
+      const chatCopy = [...chatArray];
+      chatCopy.push(message);
+      setChatArray(chatCopy);
+    }
+  };
+
   return (
-    <div>
-      <UserInput onAccept={(t) => handleClick(t)} />
-      <h1>{text}</h1>
+    <div className="lobby-wrapper">
+      <CustomChat
+        user={props.user}
+        SOCKET={props.socket}
+        userList={props.userList}
+        chatArray={chatArray}
+      />
     </div>
   );
 }

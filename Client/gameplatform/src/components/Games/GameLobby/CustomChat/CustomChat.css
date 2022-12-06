@@ -1,0 +1,36 @@
+.chat-room {
+  height: 35vw;
+  width: 40vw;
+  background-color: white;
+  border-radius: 4px;
+  display: flex;
+}
+
+.chat-output-div {
+  position: absolute;
+  top: 0;
+}
+
+.chat-input-div {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+.chat-users-div {
+  position: absolute;
+  right: 0;
+  width: 40%;
+  height: 100%;
+  border-radius: 4px;
+  border-left: 1px rgba(0, 0, 0, 0.348) solid;
+}
+
+.chat-text-fields {
+  position: relative;
+  width: 60%;
+  height: 100%;
+}
+
+ul {
+  width: 100%;
+}

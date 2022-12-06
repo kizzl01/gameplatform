@@ -1,20 +1,29 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import ScoreBoard from "../../UI/ScoreBoard/ScoreBoard";
+import SocketIOClient from "socket.io-client";
 import Snake from "./snake";
-const APIURL = process.env.REACT_APP_SERVER_API_URL;
-const APIURLLOCAL = process.env.REACT_APP_SERVER_API_URL_LOCAL;
 
 function SnakeGame(props) {
   const [HighScores, setHighScores] = useState(null);
   const [user, setUser] = useState(props.user);
+  const socket = props.SOCKET;
 
+  
   useEffect(() => {
+    socket.on("updateScoreboard", (data) => {
+      console.log("server message: updating scoreboard to ",data);
+      setHighScores(data);
+      // getScoreBoard();
+    });
+    socket.on("message",(message)=>{
+      console.log(message);
+    });
     getScoreBoard();
   }, []);
 
   const getScoreBoard = () => {
-    fetch(`${APIURL}getScoreboard`, {
+    fetch(`${props.APIURL()}getScoreboard`, {
       crossDomain: true,
       method: "GET",
       headers: { "Content-type": "application/json" },
@@ -35,7 +44,7 @@ function SnakeGame(props) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     };
-    fetch(`${APIURL}postScoreboard`, requestOptions);
+    fetch(`${props.APIURL()}postScoreboard`, requestOptions);
   };
 
   function compareScores(a, b) {
@@ -51,7 +60,7 @@ function SnakeGame(props) {
   const WriteNewHighScores = (user, s) => {
     const n = user.toLowerCase();
     let copy = HighScores.slice();
-    
+
     if (!ExistingUser(copy, n)) {
       HighScores.push({ name: user, score: s });
       copy = HighScores.slice();
@@ -60,17 +69,17 @@ function SnakeGame(props) {
     ) {
       copy[copy.findIndex((x) => x.name.toLowerCase() === n)].score = s;
     }
-    
+
     copy = copy.sort(compareScores);
     checkHighScoreBoardLength(copy);
     postScoreBoard(copy);
     setHighScores(copy);
   };
 
-  const checkHighScoreBoardLength=(board)=>{
-    if(board.length<11) return;
+  const checkHighScoreBoardLength = (board) => {
+    if (board.length < 11) return;
     board.pop();
-  }
+  };
 
   const ExistingUser = (data, n) => {
     for (let i = 0; i < data.length; i++) {

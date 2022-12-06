@@ -21,6 +21,7 @@ class Game {
     ]);
     this.food = undefined;
     this.gameover = false;
+    this.pause = false;
     // this.scoreHtmlElmt = document.getElementById("score");
     this.addFood();
   }
@@ -28,6 +29,7 @@ class Game {
   // Callback function called when a keyboard key
   // is pushed down
   keyDown(e) {
+    // console.log(e.key);
     //Get the pause popup div
     // var popup = document.getElementById("pausePopup");
     switch (e.key) {
@@ -38,6 +40,12 @@ class Game {
         }
         break;
       case "ArrowLeft":
+        if (this.nextMove !== "right" && !this.alreadyMoved) {
+          this.nextMove = "left";
+          this.alreadyMoved = true;
+        }
+        break;
+        case "1":
         if (this.nextMove !== "right" && !this.alreadyMoved) {
           this.nextMove = "left";
           this.alreadyMoved = true;
@@ -55,6 +63,12 @@ class Game {
           this.alreadyMoved = true;
         }
         break;
+        case "5":
+        if (this.nextMove !== "down" && !this.alreadyMoved) {
+          this.nextMove = "up";
+          this.alreadyMoved = true;
+        }
+        break;
       case "d":
         if (this.nextMove !== "left" && !this.alreadyMoved) {
           this.nextMove = "right";
@@ -67,6 +81,12 @@ class Game {
           this.alreadyMoved = true;
         }
         break;
+        case "3":
+        if (this.nextMove !== "left" && !this.alreadyMoved) {
+          this.nextMove = "right";
+          this.alreadyMoved = true;
+        }
+        break;
       case "s":
         if (this.nextMove !== "up" && !this.alreadyMoved) {
           this.nextMove = "down";
@@ -74,6 +94,12 @@ class Game {
         }
         break;
       case "ArrowDown":
+        if (this.nextMove !== "up" && !this.alreadyMoved) {
+          this.nextMove = "down";
+          this.alreadyMoved = true;
+        }
+        break;
+        case "2":
         if (this.nextMove !== "up" && !this.alreadyMoved) {
           this.nextMove = "down";
           this.alreadyMoved = true;
@@ -245,28 +271,28 @@ const start = (obj) => {
 };
 
 const loop = (game, ctx, obj) => {
-  if (game.gameover) {
-    obj.setState({ isFinished: true });
-    obj.setScore();
-    // game.scoreHtmlElmt.textContent = "restart";
-    return;
-  }
-  game.update(ctx, obj);
-  // every 5 food eaten, increase spead by 10 ms
-  var snakeFastIndex = Math.floor(game.snake.length / 5);
-  if (snakeFastIndex === 0) {
-    var speed = 80;
-  } else {
-    // if speed should be faster to 30 ms, keep it to 30 ms, so the player can still play
-    if (snakeFastIndex > 5) {
-      speed = 30;
-    } else {
-      speed = 80 - 10 * snakeFastIndex;
+    if (game.gameover) {
+      obj.setState({ isFinished: true });
+      obj.setScore();
+      return;
     }
-  }
-  setTimeout(() => {
-    loop(game, ctx, obj);
-  }, speed);
+    game.update(ctx, obj);
+    // every 5 food eaten, increase spead by 10 ms
+    var snakeFastIndex = Math.floor(game.snake.length / 5);
+    if (snakeFastIndex === 0) {
+      var speed = 80;
+    } else {
+      // if speed should be faster to 30 ms, keep it to 30 ms, so the player can still play
+      if (snakeFastIndex > 5) {
+        speed = 30;
+      } else {
+        speed = 80 - 10 * snakeFastIndex;
+      }
+    }
+    if(obj.state.pause) speed = 3000;
+    setTimeout(() => {
+      loop(game, ctx, obj);
+    }, speed);
 };
 
 function restart(obj) {
@@ -279,6 +305,7 @@ export default class Snake extends React.Component {
     this.state = {
       isFinished: false,
       score: 0,
+      pause: false,
     };
   }
   componentDidMount() {
@@ -287,6 +314,12 @@ export default class Snake extends React.Component {
 
   handleClick = () => {
     restart(this);
+  };
+
+  handlePauseClick = () => {
+    const { pause } = this.state;
+    console.log("pausing game", pause);
+    this.setState({ pause: !pause });
   };
 
   setScore = () => {
@@ -309,6 +342,7 @@ export default class Snake extends React.Component {
             color="primary"
           />
           <Chip label={`Score: ${score}`} variant="filled" color="secondary" />
+          <Chip label="Pause" onClick={this.handlePauseClick} color="primary" />
         </div>
       </div>
     );
