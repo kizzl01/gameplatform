@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { List, ListItem, ListItemText, TextField } from "@mui/material";
+import { FixedSizeList } from 'react-window';
 import "./CustomChat.css";
 
 function CustomChat(props) {
@@ -7,11 +8,7 @@ function CustomChat(props) {
   const socket = props.SOCKET;
 
   useEffect(() => {
-    console.log("chat component mounted");
-    
   }, []);
-
-  const sendChatmessage = () => {};
 
   const handleChange = (e) => {
     socket.emit("userTyping");
@@ -38,8 +35,7 @@ function CustomChat(props) {
   };
 
   const renderChatMessages = () => {
-    if (props.chatArray !== "test") {
-      console.log(`rendering chatArray: ${props.chatArray}`);
+    if (props.chatArray !== null) {
       return props.chatArray.map((message) => (
         <ListItem key={message}>
           <ListItemText primary={`${message}`} />
