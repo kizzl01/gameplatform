@@ -62,7 +62,8 @@ const logOnUser = (u, i) => {
 
 const buildChatMessage = (m, u) => {
   const newMessage = `${u}: ${m}`;
-  chatMessages.push(newMessage);
+  // chatMessages.push(newMessage);
+  return newMessage;
 };
 
 const logOfUser = (i) => {
@@ -134,18 +135,13 @@ io.on("connection", (socket) => {
     logOfUser(id);
   });
 
-  socket.on("message", (message) => {
-    io.emit("message", `  ${message}`);
-  });
-
   socket.on("userlogon", (user) => {
     logOnUser(user, id);
   });
 
   socket.on("sendmessage", (message, user) => {
     console.log(`received message ${message} from user ${user}`);
-    buildChatMessage(message, user);
-    io.emit("receivemessage", chatMessages);
+    io.emit("sendmessage", buildChatMessage(message, user));
   });
 });
 

@@ -46,6 +46,10 @@ function Main() {
 
   useEffect(() => {
     checkForDevelopment();
+    socket.on("updateUserList", (data) => {
+      console.log("server said: update user list to: ", data);
+      setUserList(data);
+    });
     return () => {};
   }, []);
 
@@ -98,17 +102,7 @@ function Main() {
     setContentItem(i);
   };
 
-  // const addUserToUserList = (u) => {
-  //   if (UserInList(userList, u)) return;
-  //   userList.push({ user: u });
-  //   console.log("added user to userlist");
-  // };
-
   const handleUserLogon = (u) => {
-    socket.on("updateUserList", (data) => {
-      console.log("server said: update user list to: ", data);
-      setUserList(data);
-    });
     socket.emit("userlogon", u);
     socket.on("loginSuccess", (loggedOnUser) => {
       if ((loggedOnUser = u)) setUser(u);
@@ -120,20 +114,20 @@ function Main() {
       key="Tic Tac Toe"
       DEVELOPMENTMODE={DEVELOPMENTMODE}
       APIURL={APIURL}
-      SOCKET={socket}
+      socket={socket}
     />,
     <SnakeGame
       key="Snake"
       user={user}
       DEVELOPMENTMODE={DEVELOPMENTMODE}
       APIURL={APIURL}
-      SOCKET={socket}
+      socket={socket}
     />,
     <GameLobby
       key="GameLobby"
       DEVELOPMENTMODE={DEVELOPMENTMODE}
       APIURL={APIURL}
-      SOCKET={socket}
+      socket={socket}
       user={user}
       userList={userList}
     />,

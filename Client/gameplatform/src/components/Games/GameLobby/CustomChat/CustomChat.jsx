@@ -4,13 +4,11 @@ import "./CustomChat.css";
 
 function CustomChat(props) {
   const [text, setText] = useState(null);
-  const [chatArray, setChatArray] = useState([]);
   const socket = props.SOCKET;
 
   useEffect(() => {
-    socket.on("receivemessage", (chatlog) => {
-      console.log(`received message ${chatlog} from server`);
-    });
+    console.log("chat component mounted");
+    
   }, []);
 
   const sendChatmessage = () => {};
@@ -22,7 +20,6 @@ function CustomChat(props) {
 
   const handleKeyPress = (e) => {
     if (e.key !== "Enter") return;
-    console.log("message sent", text);
     e.target.value = "";
     socket.emit("sendmessage", text, props.user);
   };
@@ -41,9 +38,9 @@ function CustomChat(props) {
   };
 
   const renderChatMessages = () => {
-    if (chatArray) {
-      console.log(`rendering chatArray ${chatArray}`);
-      return chatArray.map((message) => (
+    if (props.chatArray !== "test") {
+      console.log(`rendering chatArray: ${props.chatArray}`);
+      return props.chatArray.map((message) => (
         <ListItem key={message}>
           <ListItemText primary={`${message}`} />
         </ListItem>
