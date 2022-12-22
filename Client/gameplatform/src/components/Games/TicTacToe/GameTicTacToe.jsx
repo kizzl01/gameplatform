@@ -68,17 +68,29 @@ function TicTacToe() {
   };
 
   return (
-    <div className="game">
-      <div className="game-board">
-        <Board squares={current.squares} onClick={(i) => handleClick(i)} />
-      </div>
-      <div className="game-info">
-        <div>{status}</div>
-        {(winner)&&(<div>
-          <Button onClick={()=>jumpTo(0)} variant="contained">Restart</Button>
-        </div>)
-        }
-        {/* <ol>{moves}</ol>  */}
+    <div style={{height:"100%"}}>
+      <div className="game-wrapper">
+        <div className="game-container">
+          <div className="game">
+            <div className="game-board">
+              <Board
+                squares={current.squares}
+                onClick={(i) => handleClick(i)}
+              />
+            </div>
+            <div className="game-info">
+              <div>{status}</div>
+              {winner && (
+                <div>
+                  <Button onClick={() => jumpTo(0)} variant="contained">
+                    Restart
+                  </Button>
+                </div>
+              )}
+              {/* <ol>{moves}</ol>  */}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

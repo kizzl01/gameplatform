@@ -16,9 +16,9 @@ function PersonalityGame(props) {
 
                 <form>
                     <center>
-                        <input type="text" name="name" placeholder="Lustiger Fakt"/>
+                        <input type="text" name="name" placeholder="Lustiger Fakt" className="input-text"/>
                     </center>
-                        <input type="submit" value="Submit" />
+                        <input type="submit" value="Submit" className="input-submit"/>
                 </form>
             </div>
         </div>

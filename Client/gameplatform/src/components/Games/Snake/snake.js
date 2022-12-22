@@ -45,7 +45,7 @@ class Game {
           this.alreadyMoved = true;
         }
         break;
-        case "1":
+      case "1":
         if (this.nextMove !== "right" && !this.alreadyMoved) {
           this.nextMove = "left";
           this.alreadyMoved = true;
@@ -63,7 +63,7 @@ class Game {
           this.alreadyMoved = true;
         }
         break;
-        case "5":
+      case "5":
         if (this.nextMove !== "down" && !this.alreadyMoved) {
           this.nextMove = "up";
           this.alreadyMoved = true;
@@ -81,7 +81,7 @@ class Game {
           this.alreadyMoved = true;
         }
         break;
-        case "3":
+      case "3":
         if (this.nextMove !== "left" && !this.alreadyMoved) {
           this.nextMove = "right";
           this.alreadyMoved = true;
@@ -99,7 +99,7 @@ class Game {
           this.alreadyMoved = true;
         }
         break;
-        case "2":
+      case "2":
         if (this.nextMove !== "up" && !this.alreadyMoved) {
           this.nextMove = "down";
           this.alreadyMoved = true;
@@ -116,18 +116,19 @@ class Game {
   }
 
   // Add a food somewhere in the game (randomly)
-  addFood() {
+  addFood(obj) {
     var x = Math.floor(Math.random() * 60);
     var y = Math.floor(Math.random() * 60);
     for (var i = 0; i < this.snake.length; i++) {
       var xy = this.snake[i];
-
+      
       if (xy[0] === x && xy[1] === y) {
-        return this.addFood();
+        return this.addFood(obj);
       }
     }
-
+    
     this.food = [x, y];
+    
   }
 
   // Update the game state with the next move
@@ -177,7 +178,8 @@ class Game {
     if (newHead[0] === this.food[0] && newHead[1] === this.food[1]) {
       // Move food to another place
       //This place must not be somewhere on the snake
-      this.addFood();
+      this.addFood(obj);
+      if (this.snake.length > 0) obj.setLiveScore(this.snake.length);
     } else {
       this.snake.pop(); //Don't grow the snake
     }
@@ -271,28 +273,28 @@ const start = (obj) => {
 };
 
 const loop = (game, ctx, obj) => {
-    if (game.gameover) {
-      obj.setState({ isFinished: true });
-      obj.setScore();
-      return;
-    }
-    game.update(ctx, obj);
-    // every 5 food eaten, increase spead by 10 ms
-    var snakeFastIndex = Math.floor(game.snake.length / 5);
-    if (snakeFastIndex === 0) {
-      var speed = 80;
+  if (game.gameover) {
+    obj.setState({ isFinished: true });
+    obj.setScore();
+    return;
+  }
+  game.update(ctx, obj);
+  // every 5 food eaten, increase spead by 10 ms
+  var snakeFastIndex = Math.floor(game.snake.length / 5);
+  if (snakeFastIndex === 0) {
+    var speed = 80;
+  } else {
+    // if speed should be faster to 30 ms, keep it to 30 ms, so the player can still play
+    if (snakeFastIndex > 5) {
+      speed = 30;
     } else {
-      // if speed should be faster to 30 ms, keep it to 30 ms, so the player can still play
-      if (snakeFastIndex > 5) {
-        speed = 30;
-      } else {
-        speed = 80 - 10 * snakeFastIndex;
-      }
+      speed = 80 - 10 * snakeFastIndex;
     }
-    if(obj.state.pause) speed = 3000;
-    setTimeout(() => {
-      loop(game, ctx, obj);
-    }, speed);
+  }
+  if (obj.state.pause) speed = 3000;
+  setTimeout(() => {
+    loop(game, ctx, obj);
+  }, speed);
 };
 
 function restart(obj) {
@@ -308,6 +310,8 @@ export default class Snake extends React.Component {
       pause: false,
     };
   }
+
+
   componentDidMount() {
     start(this);
   }
@@ -318,13 +322,17 @@ export default class Snake extends React.Component {
 
   handlePauseClick = () => {
     const { pause } = this.state;
-    console.log("pausing game", pause);
     this.setState({ pause: !pause });
   };
 
   setScore = () => {
     const { score } = this.state;
-    this.props.newScore(score);
+    this.props.newHighScore(score);
+  };
+
+  setLiveScore = (livescore) => {
+    const { score } = this.state;
+    this.props.newLiveScore(livescore);
   };
 
   render() {

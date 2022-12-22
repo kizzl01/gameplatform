@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import "./GameLobby.css";
+import "./ChatRoom.css";
 import CustomChat from "./CustomChat/CustomChat";
 
 
-function GameLobby(props) {
+function ChatRoom(props) {
   const [chatArray, setChatArray] = useState(null);
 
   useEffect(() => {
@@ -35,4 +35,4 @@ function GameLobby(props) {
   );
 }
 
-export default GameLobby;
+export default ChatRoom;

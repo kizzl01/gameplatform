@@ -5,10 +5,12 @@ import UserInput from "../UserInput/UserInput";
 import "./UIMain.css";
 import UIScrollable from "../UIScrollable/UIScrollable.jsx";
 import SnakeGame from "../../Games/Snake/SnakeGame.jsx";
-import GameLobby from "../../Games/GameLobby/GameLobby.jsx";
+import ChatRoom from "../../Games/ChatRoom/ChatRoom.jsx";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import io from "socket.io-client";
 import { Button } from "@mui/material";
+import CanvasGame from "../../Games/CanvasGame/CanvasGame";
+import GameLobby from "../GameLobby/GameLobby";
 
 //0 = johnnys Server, 1 = localhost, 2 = ipadresse windows subysystem linux adapter
 
@@ -23,6 +25,8 @@ function Main() {
         return process.env.REACT_APP_SERVER_API_URL_LOCAL;
       case 2:
         return process.env.REACT_APP_SERVER_API_URL_WSL;
+      case 3:
+        return process.env.REACT_APP_SERVER_API_URL_LOCALNETWORK;
       default:
         return process.env.REACT_APP_SERVER_API_URL_LOCAL;
     }
@@ -35,6 +39,8 @@ function Main() {
         return process.env.REACT_APP_SERVER_WEBSOCKET_URL_LOCAL;
       case 2:
         return process.env.REACT_APP_SERVER_WEBSOCKET_URL_WSL;
+      case 3:
+        return process.env.REACT_APP_SERVER_WEBSOCKET_URL_LOCALNETWORK;
       default:
         return process.env.REACT_APP_SERVER_WEBSOCKET_URL_LOCAL;
     }
@@ -47,42 +53,26 @@ function Main() {
   useEffect(() => {
     checkForDevelopment();
     socket.on("updateUserList", (data) => {
-      console.log("server said: update user list to: ", data);
       setUserList(data);
     });
-    return () => {};
-  }, []);
 
-  const UserInList = (data, n) => {
-    for (let i = 0; i < data.length; i++) {
-      if (data[i].user.toLowerCase() === n.toLowerCase()) return true;
-    }
-    return false;
-  };
-
-  const getUserList = () => {
-    fetch(`${APIURL()}getUserList`, {
-      crossDomain: true,
-      method: "GET",
-      headers: { "Content-type": "application/json" },
-    })
-      .then((e) => e.json())
-      .then((e) => {
-        setUserList(e);
-        console.log(e);
-      });
-    return null;
-  };
-
-  const postUserList = (data) => {
-    const requestOptions = {
-      crossDomain: true,
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+    window.addEventListener(
+      "keydown",
+      function (e) {
+        if (
+          ["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(
+            e.code
+          ) > -1
+        ) {
+          e.preventDefault();
+        }
+      },
+      false
+    );
+    return () => {
+      console.log("test");
     };
-    fetch(`${APIURL()}postUserList`, requestOptions);
-  };
+  }, []);
 
   const checkForDevelopment = () => {
     // if (DEVELOPMENTMODE === 1) return;
@@ -105,6 +95,9 @@ function Main() {
   const handleUserLogon = (u) => {
     socket.emit("userlogon", u);
     socket.on("loginSuccess", (loggedOnUser) => {
+      console.log(
+        `login succesful for user ${u} with server response ${loggedOnUser}`
+      );
       if ((loggedOnUser = u)) setUser(u);
     });
   };
@@ -119,17 +112,16 @@ function Main() {
     <SnakeGame
       key="Snake"
       user={user}
+      userList={userList}
       DEVELOPMENTMODE={DEVELOPMENTMODE}
       APIURL={APIURL}
       socket={socket}
     />,
     <GameLobby
       key="GameLobby"
-      DEVELOPMENTMODE={DEVELOPMENTMODE}
-      APIURL={APIURL}
-      socket={socket}
       user={user}
       userList={userList}
+      socket={socket}
     />,
   ];
 
@@ -137,7 +129,13 @@ function Main() {
     setContentItem(null);
   };
 
+  const isInLobby = () => {
+    if (!contents[contentItem]) return false;
+    if (contents[contentItem].key === "Snake") return true;
+  };
+
   const content = contents[contentItem];
+
   return (
     <div className="root-wrapper" style={{ height: "100%", width: "100%" }}>
       {!user && <UserInput onAccept={handleUserLogon} />}
@@ -146,10 +144,30 @@ function Main() {
       )}
       {user && content && (
         <div className="main-wrapper">
-          <Button variant="contained" onClick={handleBackButton} size="medium">
-            <ArrowBackIosIcon fontSize="large" />
-          </Button>
-          <div className="content-container">{content}</div>
+          <div className="back-button">
+            <Button
+              variant="contained"
+              onClick={handleBackButton}
+              size="medium"
+            >
+              <ArrowBackIosIcon fontSize="large" />
+            </Button>
+          </div>
+          <div className="content-container">
+            {content}
+            {isInLobby() && (
+              <div className="chat-window-div">
+                <ChatRoom
+                  key="GameLobby"
+                  DEVELOPMENTMODE={DEVELOPMENTMODE}
+                  APIURL={APIURL}
+                  socket={socket}
+                  user={user}
+                  userList={userList}
+                />
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>

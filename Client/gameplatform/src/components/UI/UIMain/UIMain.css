@@ -1,32 +1,31 @@
 html {
-  height: 100%;
+  /* height: 100; */
   width: 100%;
-  position: fixed;
 }
 
 body {
   margin: 0;
   border: none;
   width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    200deg,
+  /* height: 100%; */
+  /* background: linear-gradient(
+    to bottom,
     rgba(92, 30, 166, 1) 0%,
     rgba(200, 67, 94, 1) 100%
-  );
+  ); */
+  background:rgb(233 148 0);
 }
 
 .root-wrapper {
-  background-image: url(../../../media/textura.png);
+  /* background-image: url(../../../media/textura.png); */
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
 }
 
 .main-wrapper {
-  position: relative;
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   display: flex;
 }
 
@@ -35,30 +34,17 @@ body {
   width: 20%;
 }
 
-/* .main {
-  scroll-behavior: smooth;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-} */
-
-.info-container {
-  height: 100%;
-  width: 20%;
-  border-radius: 20px;
-}
-
 .back-button {
-  height: 60px;
   margin: auto auto auto 0;
+  position: fixed;
 }
 
 .content-container {
   align-content: center;
   justify-content: center;
-  display: flex;
   margin: auto;
+  position: relative;
+  padding-top: 2%;
 }
 
 .game-wrapper {
@@ -74,4 +60,3 @@ tbody {
 
 @media (min-width: 320px) and (max-width: 999px) {
 }
-

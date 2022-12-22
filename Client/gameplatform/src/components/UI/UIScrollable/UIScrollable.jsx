@@ -1,28 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 // import GameLobby from "../../Games/GameLobby/GameLobby";
 import "./UIScrollable.css";
 import CustomButton from "../CustomButton/CustomButton";
 
 function UIScrollable(props) {
-  const [user, setUser] = useState(props.user);
-  const [gameList, setGameList] = useState(props.contentList);
-
-  useEffect(() => {
-    setUser(props.user);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleClick = (id) => {
     props.handleClick(id);
   };
 
   const contentList = () => {
-    return gameList.map((c) => (
+    return props.contentList.map((c) => (
       <ul className="content-list" key = {c.key}>
         <CustomButton
           content={c}
           onClick={handleClick}
-          id={gameList.indexOf(c)}
+          id={props.contentList.indexOf(c)}
         />
       </ul>
     ));

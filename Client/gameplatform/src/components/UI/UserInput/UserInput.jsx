@@ -10,17 +10,19 @@ function UserInput(props) {
   };
 
   return (
-    <div className="user-input">
-      <TextField
-        id="username"
-        label="Nutzername"
-        variant="filled"
-        onChange={handleChange}
-        value={text}
-      />
-      <Button variant="contained" onClick={() => props.onAccept(text)}>
-        Bestätigen
-      </Button>
+    <div style={{height:"100vh" ,width:"100vw"}}>
+      <div className="user-input">
+        <TextField
+          id="username"
+          label="Nutzername"
+          variant="filled"
+          onChange={handleChange}
+          value={text}
+        />
+        <Button variant="contained" onClick={() => props.onAccept(text)}>
+          Bestätigen
+        </Button>
+      </div>
     </div>
   );
 }
