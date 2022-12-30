@@ -24,11 +24,11 @@ stages:          # List of stages for jobs, and their order of execution
 build-job:       # This job runs in the build stage, which runs first.
   stage: build
   script:
-    - cd .\Server\
+    - cd ./Server/
     - START npm install
-    - cd ..\Client\
+    - cd ../Client/
     - START npm install
-    - cd .\Server\
+    - cd ./Server/
     - START node .\server.js
     - cd ..\Client\
     - START npm start
