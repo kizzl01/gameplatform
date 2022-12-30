@@ -4,7 +4,7 @@
 ==	Einführung und Motivation
 
 ****
-Geplant ist eine Spieleseite die mehrere Spiele beinhaltet, sowohl für Einzelspieler als auch "kompetetive" Spieler in Mehrspieler Modus.
+Geplant ist eine Spieleseite, die mehrere Spiele beinhaltet, sowohl für Einzelspieler als auch "kompetitive" Spieler in Mehrspieler Modus.
 
 Jeder Teilnehmer soll über ein eigenes Gerät (Bsp. Handy, Laptop, Desktop PC) ohne zusätzliche Installationen mit Standardprogrammen auf die Spiele zugreifen können.
 ****
@@ -24,8 +24,8 @@ Mitwirkende der Gruppe:
 Das Projekt wird in einem gemeinsamen GitLab Repository verwaltet.
 
 Die Qualität wird sichergestellt durch einen Reviewprozess.
-Alle Veränderungen die den Master betreffen werden von Friedrich Roth überprüft.
-Veränderungen von Friedrich Roth werden durch Lukas Michalek überprüft. Zusätzlich wird eine Pipeline verwendet die duch Buildtest die Lauffähikeit von Server und Client überprüft.
+Alle Veränderungen, die den Master betreffen werden von Friedrich Roth überprüft.
+Veränderungen von Friedrich Roth werden durch Lukas Michalek überprüft. Zusätzlich wird eine Pipeline verwendet die durch Buildtests die Lauffähikeit von Server und Client überprüft.
 Somit ist eine Qualitätssicherung gewährleistet.
 
 
@@ -40,7 +40,7 @@ Es wurden Ansätze von SCRUM verwendet, allerdings gab der Projektumfang eine vo
 Es handelt sich um eine Webanwendung.
 Die Anwendung basiert auf dem Client-Server Modell. Eine Kombination aus REST und Websocket sorgt für die Kommunikation zwischen den beiden Instanzen.
 Um einen dynamischen Aufbau der Oberfläche zu ermöglichen wurde JavaScript im React Framework eingesetzt. React ermöglicht ein einheitliches Design und einen modularen Aufbau.
-Die Logik sowie die Datensätze werden vom Server bereitgestellt, während auf dem Clientsystem die Benutzerschnittstelle, wie vorab erwähnt durch das React Framework, erzeugt und in HTML dargetellt wird.
+Die Logik sowie die Datensätze werden vom Server bereitgestellt, während auf dem Clientsystem die Benutzerschnittstelle, wie vorab erwähnt durch das React Framework, erzeugt und in HTML dargestellt wird.
 Die persistente Datenspeicherung erfolgt in Form einer JSON-Datei. Aufgrund der geringen Anforderungen an die Speicheraufgaben wurde sich gegen ein relationales Datenbankmodell entschieden.
 Außerdem wurde sich gegen eine Benutzerauthentifizierung entschieden.
 Eine direkte Kommunikation zwischen den Clients findet nicht statt. Die Clients synchronisieren sich auf bidirektionalem Weg über den Server, welcher mit JavaScript in NodeJS Framework betrieben wird.
