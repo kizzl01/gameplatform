@@ -33,7 +33,7 @@ build-jobserver:       # This job runs in the build stage, which runs first.
 build-jobclient:       # This job runs in the build stage, which runs first.
   stage: build
   script:
-    - cd ../Client/
+    - cd ./Client/
     - npm install
     - npm start &
     - sleep 120    
