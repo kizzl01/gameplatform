@@ -21,17 +21,21 @@ stages:          # List of stages for jobs, and their order of execution
   - build
   
 
-build-job:       # This job runs in the build stage, which runs first.
+build-jobserver:       # This job runs in the build stage, which runs first.
   stage: build
   script:
 
     - cd ./Server/
     - npm install
     - node ./server.js &
+    - sleep 120
+
+build-jobclient:       # This job runs in the build stage, which runs first.
+  stage: build
+  script:
     - cd ../Client/
     - npm install
     - npm start &
-    - sleep 120
-    
+    - sleep 120    
     
     
