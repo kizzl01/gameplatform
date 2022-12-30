@@ -1,0 +1,21 @@
+Table {
+  background: linear-gradient(
+    rgba(227, 218, 236, 0.281) 0%,
+    rgba(27, 27, 27, 0.164) 100%
+  );
+  border: 0;
+  border-radius: 20px;
+}
+
+.MuiTable-root {
+  border: 0;
+}
+
+tr.online-player1 {
+  /* background: rgba(68, 255, 0, 0.518) 0%; */
+  background: rgba(247, 247, 247, 0.518) 0%;
+}
+
+tr.online-player2 {
+  background : rgb(202 205 202 / 52%) 0%;
+}

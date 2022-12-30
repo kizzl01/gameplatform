@@ -2,6 +2,6 @@
 cd .\Server\
 START node .\server.js
 
-cd ..\client\gameplatform
+cd ..\Client\
 START npm start
 EXIT

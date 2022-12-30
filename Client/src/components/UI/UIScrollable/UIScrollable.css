@@ -1,0 +1,12 @@
+.list-wrapper {
+  scroll-behavior: smooth;
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+}
+
+.content-list {
+  margin: 20px;
+  top: auto;
+}

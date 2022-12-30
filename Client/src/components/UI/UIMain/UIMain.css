@@ -1,0 +1,62 @@
+html {
+  /* height: 100; */
+  width: 100%;
+}
+
+body {
+  margin: 0;
+  border: none;
+  width: 100%;
+  /* height: 100%; */
+  /* background: linear-gradient(
+    to bottom,
+    rgba(92, 30, 166, 1) 0%,
+    rgba(200, 67, 94, 1) 100%
+  ); */
+  background:rgb(233 148 0);
+}
+
+.root-wrapper {
+  /* background-image: url(../../../media/textura.png); */
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.main-wrapper {
+  width: 100%;
+  /* height: 100%; */
+  display: flex;
+}
+
+.navigation-container {
+  height: 100%;
+  width: 20%;
+}
+
+.back-button {
+  margin: auto auto auto 0;
+  position: fixed;
+}
+
+.content-container {
+  align-content: center;
+  justify-content: center;
+  margin: auto;
+  position: relative;
+  padding-top: 2%;
+}
+
+.game-wrapper {
+  border: 2px rgba(29, 29, 27, 0.15) solid;
+  border-radius: 15px;
+  padding: 20px;
+  margin: auto;
+}
+
+tbody {
+  color: white;
+}
+
+@media (min-width: 320px) and (max-width: 999px) {
+}
