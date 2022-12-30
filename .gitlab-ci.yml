@@ -31,7 +31,7 @@ build-job:       # This job runs in the build stage, which runs first.
     - cd ../Client/
     - npm install
     - npm start &
-    - sleep 20
+    - sleep 120
     
     
     
