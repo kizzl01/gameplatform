@@ -9,12 +9,11 @@ import ChatRoom from "../../Games/ChatRoom/ChatRoom.jsx";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import io from "socket.io-client";
 import { Button } from "@mui/material";
-import CanvasGame from "../../Games/CanvasGame/CanvasGame";
 import GameLobby from "../GameLobby/GameLobby";
 
 //0 = johnnys Server, 1 = localhost, 2 = ipadresse windows subysystem linux adapter
 
-const DEVELOPMENTMODE = 2;
+const DEVELOPMENTMODE = 1;
 
 function Main() {
   const APIURL = () => {
@@ -55,7 +54,6 @@ function Main() {
     socket.on("updateUserList", (data) => {
       setUserList(data);
     });
-
     window.addEventListener(
       "keydown",
       function (e) {
@@ -69,18 +67,15 @@ function Main() {
       },
       false
     );
+    window.addEventListener("beforeunload", alertuser);
     return () => {
-      console.log("test");
+      window.removeEventListener("beforeunload", alertuser);
     };
   }, []);
 
   const checkForDevelopment = () => {
     // if (DEVELOPMENTMODE === 1) return;
     setUser(null);
-    // window.addEventListener("beforeunload", alertuser);
-    return () => {
-      // window.removeEventListener("beforeunload", alertuser);
-    };
   };
 
   const alertuser = (e) => {
