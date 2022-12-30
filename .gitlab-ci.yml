@@ -25,7 +25,7 @@ build-job:       # This job runs in the build stage, which runs first.
   stage: build
   script:
     - cd ./Server/
-    - START npm install
+    - npm install
     - cd ../Client/
     - START npm install
     - cd ./Server/
