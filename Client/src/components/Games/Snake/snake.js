@@ -331,7 +331,6 @@ export default class Snake extends React.Component {
   };
 
   setLiveScore = (livescore) => {
-    const { score } = this.state;
     this.props.newLiveScore(livescore);
   };
 
