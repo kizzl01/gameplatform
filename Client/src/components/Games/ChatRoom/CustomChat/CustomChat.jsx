@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { List, ListItem, ListItemText, TextField } from "@mui/material";
-import { FixedSizeList } from "react-window";
 import "./CustomChat.css";
 
 function CustomChat(props) {
   const [text, setText] = useState(null);
   const socket = props.SOCKET;
   const textArea = document.getElementById("chat-output-div");
-  const messageDiv = document.getElementById("message-div");
 
   useEffect(() => {}, []);
 
@@ -38,11 +36,6 @@ function CustomChat(props) {
 
   const renderChatMessages = () => {
     if (props.chatArray !== null) {
-      // return props.chatArray.map((message) => (
-      //   <ListItem key={message}>
-      //     <ListItemText primary={`${message}`} />
-      //   </ListItem>
-      // ));
       return props.chatArray.map((message) => (
         <div className="message-div" id="message-div">
           <ListItem key={message}>
