@@ -14,7 +14,7 @@ import GameLobby from "../GameLobby/GameLobby";
 
 //0 = johnnys Server, 1 = localhost, 2 = ipadresse windows subysystem linux adapter
 
-const DEVELOPMENTMODE = 1;
+const DEVELOPMENTMODE = 0;
 
 function Main() {
   const APIURL = () => {
@@ -60,13 +60,13 @@ function Main() {
       function (e) {
         if (
           ["Space", "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].indexOf(
-            e.code
+            e.code,
           ) > -1
         ) {
           e.preventDefault();
         }
       },
-      false
+      false,
     );
     window.addEventListener("beforeunload", alertuser);
     return () => {
@@ -92,7 +92,7 @@ function Main() {
     socket.emit("userlogon", u);
     socket.on("loginSuccess", (loggedOnUser) => {
       console.log(
-        `login succesful for user ${u} with server response ${loggedOnUser}`
+        `login succesful for user ${u} with server response ${loggedOnUser}`,
       );
       if ((loggedOnUser = u)) setUser(u);
     });

@@ -7,23 +7,16 @@ import {
   Table,
   tableCellClasses,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./ScoreBoard.css";
 
 export default function ScoreBoard(props) {
   const rows = props.data;
   const userList = props.userList;
   const socket = props.socket;
-  const liveScores = props.liveScores;
 
   useEffect(() => {
     props.getData();
-    socket.on("updateLiveScores", (liveScore) => {
-      console.log(
-        `got livescoreboard from server ${liveScore.livescore} for user ${liveScore.user}`
-      );
-      handleLiveScore(liveScore);
-    });
   }, [socket]);
 
   const scoreBoardData = () => {
@@ -32,10 +25,9 @@ export default function ScoreBoard(props) {
       combinedArray.push({
         name: rows[i].name,
         score: rows[i].score,
-        livescore: null,
-          // liveScores[liveScores.findIndex((x) => x.user === rows[i].name)]
-          //   .livescore null,
-
+        livescore: rows[i].livescore,
+        // liveScores[liveScores.findIndex((x) => x.user === rows[i].name)]
+        //   .livescore null,
       });
     }
     // console.log("new combined Array : ", combinedArray);
@@ -50,15 +42,14 @@ export default function ScoreBoard(props) {
     return 0;
   };
 
-  const handleLiveScore = (livescore) => {
-    for (let i = 0; i < liveScores.length; i++) {
-      if (liveScores[i].user !== livescore.user) continue;
-      liveScores[i].livescore = livescore.livescore;
-    }
-    console.log("new scoreboard : ", scoreBoardData());
-  };
-
-  console.log("scoreboard got livescores :", liveScores);
+  // const handleLiveScore = (livescore) => {
+  //   console.log(`livescores ${liveScores}`);
+  //   for (let i = 0; i < liveScores.length; i++) {
+  //     if (liveScores[i].user !== livescore.user) continue;
+  //     liveScores[i].livescore = livescore.livescore;
+  //   }
+  //   console.log("new scoreboard : ", scoreBoardData());
+  // };
 
   return (
     <div>
@@ -84,23 +75,21 @@ export default function ScoreBoard(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {scoreBoardData()
-                .sort(props.sortFunction)
-                .map((row) => (
-                  <TableRow
-                    key={row.name}
-                    className={`online-player${isPlayerOnline(row.name)}`}
-                  >
-                    <TableCell component="th" scope="row">
-                      {rows.indexOf(row) + 1}
-                    </TableCell>
-                    <TableCell>{row.name}</TableCell>
-                    <TableCell>{row.score}</TableCell>
-                    <TableCell id={`livescore-${row.name}`}>
-                      {row.livescore}
-                    </TableCell>
-                  </TableRow>
-                ))}
+              {rows.sort(props.sortFunction).map((row) => (
+                <TableRow
+                  key={row.name}
+                  className={`online-player${isPlayerOnline(row.name)}`}
+                >
+                  <TableCell component="th" scope="row">
+                    {rows.indexOf(row) + 1}
+                  </TableCell>
+                  <TableCell>{row.name}</TableCell>
+                  <TableCell>{row.score}</TableCell>
+                  <TableCell id={`livescore-${row.name}`}>
+                    {row.livescore}
+                  </TableCell>
+                </TableRow>
+              ))}
             </TableBody>
           </Table>
         </div>

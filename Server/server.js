@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(
   cors({
     origin: "*",
-  })
+  }),
 );
 
 const userList = new Array();
@@ -82,6 +82,18 @@ const EnterNewScore = async (user, s) => {
   }
   Scoreboard = Scoreboard.sort(compareScores);
   checkHighScoreBoardLength(Scoreboard);
+  handleLiveScore({ user: user, livescore: null });
+  // WriteNewHighScores(Scoreboard);
+};
+
+const handleLiveScore = async (livescore) => {
+  let Scoreboard = await SnakeHighScores();
+  if (!ExistingUser(Scoreboard, livescore.user)) return;
+  for (let i = 0; i < Scoreboard.length; i++) {
+    Scoreboard[
+      Scoreboard.findIndex((x) => x.name === livescore.user)
+    ].livescore = livescore.livescore;
+  }
   WriteNewHighScores(Scoreboard);
 };
 
@@ -99,7 +111,7 @@ const updateLiveScoreBoard = (livescore) => {
   for (let i = 0; i < liveScores.length; i++) {
     if (liveScores[i].user !== livescore.user) continue;
     console.log(
-      `writing new livescore ${livescore.livescore} for user ${liveScores[i].user}`
+      `writing new livescore ${livescore.livescore} for user ${liveScores[i].user}`,
     );
     liveScores[i].livescore = livescore.livescore;
     return;
@@ -186,8 +198,8 @@ io.on("connection", (socket) => {
   });
 
   socket.on("liveScore", (liveScore) => {
-    // updateLiveScoreBoard(liveScore);
-    io.emit("updateLiveScores", liveScore);
+    console.log("client sent ", liveScore);
+    handleLiveScore(liveScore);
   });
 });
 

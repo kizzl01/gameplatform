@@ -6,7 +6,6 @@ import Snake from "./snake";
 
 function SnakeGame(props) {
   const [HighScores, setHighScores] = useState(null);
-  const [liveScores, setLiveScores] = useState(null);
   const [user, setUser] = useState(props.user);
   const socket = props.socket;
 
@@ -49,7 +48,7 @@ function SnakeGame(props) {
     })
       .then((e) => e.json())
       .then((e) => {
-        setLiveScores(e);
+        
         console.log("new livescoreboard", e);
       });
     return null;
@@ -89,7 +88,7 @@ function SnakeGame(props) {
 
   const handleLiveScore = (livescore) => {};
 
-  console.log()
+  console.log();
 
   return (
     <div className="main-wrapper">
@@ -111,7 +110,6 @@ function SnakeGame(props) {
             sortFunction={compareScores}
             userList={props.userList}
             user={props.user}
-            liveScores={liveScores}
           />
         </div>
       )}
