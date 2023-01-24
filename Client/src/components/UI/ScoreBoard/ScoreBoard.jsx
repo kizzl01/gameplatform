@@ -11,28 +11,12 @@ import React, { useEffect, useState } from "react";
 import "./ScoreBoard.css";
 
 export default function ScoreBoard(props) {
-  const rows = props.data;
   const userList = props.userList;
   const socket = props.socket;
 
   useEffect(() => {
-    props.getData();
+    // props.getData();
   }, [socket]);
-
-  const scoreBoardData = () => {
-    const combinedArray = [];
-    for (let i = 0; i < rows.length; i++) {
-      combinedArray.push({
-        name: rows[i].name,
-        score: rows[i].score,
-        livescore: rows[i].livescore,
-        // liveScores[liveScores.findIndex((x) => x.user === rows[i].name)]
-        //   .livescore null,
-      });
-    }
-    // console.log("new combined Array : ", combinedArray);
-    return combinedArray;
-  };
 
   const isPlayerOnline = (name) => {
     for (let i = 0; i < userList.length; i++) {
@@ -42,18 +26,11 @@ export default function ScoreBoard(props) {
     return 0;
   };
 
-  // const handleLiveScore = (livescore) => {
-  //   console.log(`livescores ${liveScores}`);
-  //   for (let i = 0; i < liveScores.length; i++) {
-  //     if (liveScores[i].user !== livescore.user) continue;
-  //     liveScores[i].livescore = livescore.livescore;
-  //   }
-  //   console.log("new scoreboard : ", scoreBoardData());
-  // };
+  // console.log("new scoreboard data: ", scoreBoardData);
 
   return (
     <div>
-      {rows && (
+      {props.data && (
         <div>
           <Table
             sx={{
@@ -75,13 +52,13 @@ export default function ScoreBoard(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows.sort(props.sortFunction).map((row) => (
+              {props.data.sort(props.sortFunction).map((row) => (
                 <TableRow
                   key={row.name}
                   className={`online-player${isPlayerOnline(row.name)}`}
                 >
                   <TableCell component="th" scope="row">
-                    {rows.indexOf(row) + 1}
+                    {props.data.indexOf(row) + 1}
                   </TableCell>
                   <TableCell>{row.name}</TableCell>
                   <TableCell>{row.score}</TableCell>

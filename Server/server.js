@@ -83,18 +83,11 @@ const EnterNewScore = async (user, s) => {
   Scoreboard = Scoreboard.sort(compareScores);
   checkHighScoreBoardLength(Scoreboard);
   handleLiveScore({ user: user, livescore: null });
-  // WriteNewHighScores(Scoreboard);
+  WriteNewHighScores(Scoreboard);
 };
 
-const handleLiveScore = async (livescore) => {
-  let Scoreboard = await SnakeHighScores();
-  if (!ExistingUser(Scoreboard, livescore.user)) return;
-  for (let i = 0; i < Scoreboard.length; i++) {
-    Scoreboard[
-      Scoreboard.findIndex((x) => x.name === livescore.user)
-    ].livescore = livescore.livescore;
-  }
-  WriteNewHighScores(Scoreboard);
+const handleLiveScore = (livescore) => {
+  io.emit("updateLiveScores", livescore);
 };
 
 const UserInList = (data, n) => {
@@ -197,9 +190,9 @@ io.on("connection", (socket) => {
     io.emit("sendmessage", buildChatMessage(message, user));
   });
 
-  socket.on("liveScore", (liveScore) => {
-    console.log("client sent ", liveScore);
-    handleLiveScore(liveScore);
+  socket.on("sendliveScore", (livescore) => {
+    console.log("client sent ", livescore);
+    handleLiveScore(livescore);
   });
 });
 

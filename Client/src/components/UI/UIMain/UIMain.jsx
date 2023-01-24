@@ -68,10 +68,10 @@ function Main() {
       },
       false,
     );
-    window.addEventListener("beforeunload", alertuser);
-    return () => {
-      window.removeEventListener("beforeunload", alertuser);
-    };
+    // window.addEventListener("beforeunload", alertuser);
+    // return () => {
+    //   window.removeEventListener("beforeunload", alertuser);
+    // };
   }, []);
 
   const checkForDevelopment = () => {

@@ -349,7 +349,6 @@ export default class Snake extends React.Component {
             color="primary"
           />
           <Chip label={`Score: ${score}`} variant="filled" color="secondary" />
-          <Chip label="Pause" onClick={this.handlePauseClick} color="primary" />
         </div>
       </div>
     );

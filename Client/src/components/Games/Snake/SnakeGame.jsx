@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
+import LiveScoreboard from "../../UI/LiveScoreboard/LiveScoreboard";
 import ScoreBoard from "../../UI/ScoreBoard/ScoreBoard";
 import Snake from "./snake";
 
@@ -11,17 +12,14 @@ function SnakeGame(props) {
 
   useEffect(() => {
     socket.on("updateScoreboard", (data) => {
-      console.log("server message: updating scoreboard to ", data);
+      console.log("server message: module snakegame updating highscoreboard to ", data);
       setHighScores(data);
     });
-    socket.on("updateLiveScores", (liveScore) => {
-      handleLiveScore(liveScore);
-    });
+
     socket.on("message", (message) => {
       console.log(message);
     });
     getScoreBoard();
-    // getLiveScores();
   }, []);
 
   const getScoreBoard = () => {
@@ -34,22 +32,6 @@ function SnakeGame(props) {
       .then((e) => {
         e = e.sort(compareScores);
         setHighScores(e);
-      });
-    return null;
-  };
-
-  // für livescore impl.
-
-  const getLiveScores = () => {
-    fetch(`${props.APIURL()}getLiveScores`, {
-      crossDomain: true,
-      method: "GET",
-      headers: { "Content-type": "application/json" },
-    })
-      .then((e) => e.json())
-      .then((e) => {
-        
-        console.log("new livescoreboard", e);
       });
     return null;
   };
@@ -81,14 +63,10 @@ function SnakeGame(props) {
 
   const sendLiveScore = (user, s) => {
     const liveScore = { user: user, livescore: s };
-    socket.emit("liveScore", liveScore);
+    socket.emit("sendliveScore", liveScore);
   };
 
   // livescore für alle wird gelöscht wenn server highscoreboard update beauftragt
-
-  const handleLiveScore = (livescore) => {};
-
-  console.log();
 
   return (
     <div className="main-wrapper">
@@ -102,10 +80,9 @@ function SnakeGame(props) {
       </div>
       {HighScores && (
         <div className="info-container">
-          <ScoreBoard
-            handleLiveScore={(livescore) => handleLiveScore(livescore)}
+          <LiveScoreboard
             data={HighScores}
-            socket={socket}
+            socket={props.socket}
             getData={getScoreBoard}
             sortFunction={compareScores}
             userList={props.userList}
